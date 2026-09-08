@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install Socket Firewall
+        run: pnpm add -g sfw
+
+      - name: Verify Socket Firewall is on PATH
+        run: sfw --version
+
+      - name: Install dependencies
+        run: sfw pnpm install --frozen-lockfile
+
+      # Fails on malformed Markdown (missing blockquote or last-modified
+      # markers) and on the page background drifting from the effect's
+      # `background` option, so neither can reach main.
+      - name: Build
+        run: pnpm build
+
+      - name: Check the build is idempotent
+        run: |
+          cp public/index.html /tmp/index.first.html
+          pnpm build
+          diff -u /tmp/index.first.html public/index.html
