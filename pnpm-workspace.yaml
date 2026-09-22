@@ -1,0 +1,8 @@
+# pnpm 11 requires every dependency build script to be explicitly reviewed
+# (`strictDepBuilds` defaults to true, so an unreviewed one fails the install).
+# Both of these ship prebuilt binaries and use their install script only to
+# link the right platform binary into place. wrangler's local runtime is
+# workerd, so `pnpm dev` depends on this.
+allowBuilds:
+  esbuild: true
+  workerd: true

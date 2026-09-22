@@ -1,0 +1,69 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Never let two deploys race for the same Worker.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and deploy to Cloudflare
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Job-level so the optional purge step can test them in its `if`.
+    env:
+      PURGE_TOKEN: ${{ secrets.CLOUDFLARE_CACHE_PURGE_TOKEN }}
+      ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Reads the pinned version from package.json "packageManager" and puts
+      # both pnpm and its global bin directory on PATH.
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # The one dependency-fetching command that cannot wrap itself: this is
+      # what installs the wrapper. Everything after it is sfw-prefixed.
+      - name: Install Socket Firewall
+        run: pnpm add -g sfw
+
+      - name: Verify Socket Firewall is on PATH
+        run: sfw --version
+
+      - name: Install dependencies
+        run: sfw pnpm install --frozen-lockfile
+
+      # public/index.html is generated, not committed. The deploy would ship a
+      # site with no HTML rendering if this step were skipped.
+      - name: Build
+        run: pnpm build
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          packageManager: pnpm
+
+      # Optional. Skipped entirely unless both secrets are set, so the deploy
+      # never fails just because cache purging was not configured.
+      - name: Purge Cloudflare cache
+        if: env.PURGE_TOKEN != '' && env.ZONE_ID != ''
+        run: |
+          curl --fail --silent --show-error \
+            -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
+            -H "Authorization: Bearer ${PURGE_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'

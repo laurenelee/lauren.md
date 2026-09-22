@@ -1,0 +1,20 @@
+{
+  "name": "aaronbassett-md",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "An agent-first personal site: one Markdown file, negotiated at the edge.",
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && wrangler dev",
+    "deploy": "node build.js && wrangler deploy"
+  },
+  "devDependencies": {
+    "marked": "^16.4.0",
+    "wrangler": "^4.42.0"
+  }
+}

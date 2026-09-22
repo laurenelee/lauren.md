@@ -1,0 +1,275 @@
+/* aaronbassett.md — human-facing rendering.
+ *
+ * Dark theme only, by design. The particle-reveal shader uses its `background`
+ * option to tell UI pixels apart from empty backdrop, so the page background
+ * and that option must be the *same* colour. That colour is:
+ *
+ *     lab(2.75381 0 0)
+ *
+ * build.js asserts this file and the effect's options agree on it and fails
+ * the build if they drift. Supporting a light theme would mean handing the
+ * shader two different backgrounds, so v1 does not attempt it.
+ */
+
+:root {
+  /* Fallback for engines without CSS Lab colour; those engines also lack the
+     html-in-canvas API, so the effect never runs there and cannot mismatch. */
+  --bg: #0a0a0a;
+  --fg: #cfcac1;
+  --fg-strong: #f5f2ec;
+  --fg-muted: #8b857b;
+  --accent: #e3b57e;
+  --rule: #2a2622;
+  --code-bg: #141210;
+  --code-fg: #e0d9cc;
+
+  --measure: 70ch;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  color-scheme: dark;
+}
+
+@supports (background-color: lab(2.75381 0 0)) {
+  :root {
+    --bg: lab(2.75381 0 0);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--bg);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------------------------------------------------------------------------
+ * Stage
+ *
+ * Default (no JS, or no html-in-canvas): the document is plain flow content
+ * and both canvases are display:none. Nothing here depends on script running.
+ *
+ * `.is-active` is added by the inline init module only after
+ * supportsHtmlInCanvas() returns true AND a WebGL context is acquired.
+ *
+ * The stage deliberately stays in normal flow at full document height rather
+ * than being pinned to the viewport with the content scrolling inside it.
+ * Content captured into a canvas is painted, not hit-tested — it receives no
+ * wheel or pointer events — so an inner scroller would leave the document
+ * unscrollable. Keeping the stage in flow lets the body scroll natively and
+ * the canvases scroll with it. The init module sets the stage's height,
+ * because the captured subtree no longer contributes any.
+ * ------------------------------------------------------------------------ */
+
+.stage {
+  position: relative;
+}
+
+.stage-source,
+.stage-output {
+  display: none;
+}
+
+.stage.is-active .stage-source,
+.stage.is-active .stage-output {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Inside the canvas the layout root is forced back to position:static, so it
+   is sized by width/height, not by insets. Without an explicit width it
+   shrink-wraps to the .doc measure and the effect is clipped to that column. */
+.stage.is-active .stage-content {
+  width: 100%;
+}
+
+/* The output canvas is decorative: it must never take pointer events or be
+   announced. The real content stays in the DOM underneath it. */
+.stage.is-active .stage-output {
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Document
+ * ------------------------------------------------------------------------ */
+
+.doc {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(2.5rem, 8vw, 6rem) clamp(1.25rem, 5vw, 2.5rem)
+    clamp(4rem, 12vw, 8rem);
+}
+
+.doc > *:first-child {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--fg-strong);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2rem, 1.5rem + 2.4vw, 3rem);
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: 1.375rem;
+  margin: 3rem 0 1rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--rule);
+}
+
+h3 {
+  font-size: 1.0625rem;
+  margin: 2rem 0 0.5rem;
+}
+
+p,
+ul,
+ol {
+  margin: 0 0 1.15rem;
+}
+
+ul,
+ol {
+  padding-left: 1.25rem;
+}
+
+li {
+  margin-bottom: 0.35rem;
+}
+
+li::marker {
+  color: var(--fg-muted);
+}
+
+/* The summary blockquote directly under the h1 doubles as the page
+   description, so it reads as a standfirst rather than a pull quote. */
+blockquote {
+  margin: 0 0 1.75rem;
+  padding: 0;
+  border: 0;
+  color: var(--fg-strong);
+  font-size: 1.1875rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+strong {
+  color: var(--fg-strong);
+  font-weight: 600;
+}
+
+em {
+  color: var(--fg-muted);
+  font-style: normal;
+}
+
+hr {
+  height: 1px;
+  margin: 2.5rem 0;
+  border: 0;
+  background: var(--rule);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  color: var(--code-fg);
+  background: var(--code-bg);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+}
+
+pre {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.15rem;
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 0.8125rem;
+}
+
+table {
+  width: 100%;
+  margin: 0 0 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+th,
+td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+
+th {
+  color: var(--fg-strong);
+  font-weight: 600;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
