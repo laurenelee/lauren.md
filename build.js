@@ -17,6 +17,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { marked } from "marked";
+import { gfmHeadingId } from "marked-gfm-heading-id";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const MD_PATH = join(root, "public", "index.md");
@@ -79,9 +80,7 @@ function stampLastModified(markdown, date) {
   }
   const line = `*Last updated: ${date} · Canonical Markdown: <${SITE}/index.md>*`;
   return (
-    markdown.slice(0, start) +
-    `${STAMP_START}\n${line}\n` +
-    markdown.slice(end)
+    markdown.slice(0, start) + `${STAMP_START}\n${line}\n` + markdown.slice(end)
   );
 }
 
@@ -239,6 +238,7 @@ ${content.trimEnd()}
 
 function main() {
   checkBackgroundMatchesStylesheet();
+  marked.use(gfmHeadingId());
 
   const original = readFileSync(MD_PATH, "utf8");
   const markdown = stampLastModified(original, buildDate());

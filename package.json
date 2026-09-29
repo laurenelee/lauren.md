@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "marked": "^16.4.0",
+    "marked-gfm-heading-id": "^4.1.4",
     "wrangler": "^4.42.0"
   }
 }
