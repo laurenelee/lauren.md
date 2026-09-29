@@ -23,15 +23,15 @@ const MD_PATH = join(root, "public", "index.md");
 const HTML_PATH = join(root, "public", "index.html");
 const CSS_PATH = join(root, "public", "style.css");
 
-const SITE = "https://aaronbassett.md";
-const FALLBACK_TITLE = "Aaron Bassett";
+const SITE = "https://lauren.md";
+const FALLBACK_TITLE = "Lauren Lee";
 
 /**
  * The page background. The shader uses this to tell UI pixels apart from empty
  * backdrop, so it MUST equal the background painted by style.css — see the
  * assertion in checkBackgroundMatchesStylesheet().
  */
-const BACKGROUND = "lab(2.75381 0 0)";
+const BACKGROUND = "#f2e9d7";
 
 /** Exact option values for the vendored Canvas UI particle-reveal effect. */
 const PARTICLE_OPTIONS = {
@@ -155,6 +155,10 @@ function renderPage({ title, description, content }) {
     <meta name="description" content="${escapeHtml(description)}" />
     <link rel="canonical" href="${SITE}/" />
     <link rel="alternate" type="text/markdown" href="/index.md" />
+    <meta name="theme-color" content="#f2e9d7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..700,100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap" />
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>

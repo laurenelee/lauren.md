@@ -1,41 +1,35 @@
-/* aaronbassett.md — human-facing rendering.
+/* lauren.md — human-facing rendering.
  *
- * Dark theme only, by design. The particle-reveal shader uses its `background`
- * option to tell UI pixels apart from empty backdrop, so the page background
- * and that option must be the *same* colour. That colour is:
+ * One light theme, to match lolocoding.com: cream paper, deep teal ink,
+ * terracotta links. The particle-reveal shader uses its `background` option to
+ * tell UI pixels apart from empty backdrop, so the page background and that
+ * option must be the *same* colour. That colour is:
  *
- *     lab(2.75381 0 0)
+ *     #f2e9d7
  *
  * build.js asserts this file and the effect's options agree on it and fails
- * the build if they drift. Supporting a light theme would mean handing the
- * shader two different backgrounds, so v1 does not attempt it.
+ * the build if they drift. Change both together, or neither.
  */
 
 :root {
-  /* Fallback for engines without CSS Lab colour; those engines also lack the
-     html-in-canvas API, so the effect never runs there and cannot mismatch. */
-  --bg: #0a0a0a;
-  --fg: #cfcac1;
-  --fg-strong: #f5f2ec;
-  --fg-muted: #8b857b;
-  --accent: #e3b57e;
-  --rule: #2a2622;
-  --code-bg: #141210;
-  --code-fg: #e0d9cc;
+  --bg: #f2e9d7;
+  --fg: #1f5b65;
+  --fg-strong: #104e58;
+  --fg-muted: #5a7479;
+  --accent: #b4492f;
+  --accent-soft: #ec8366;
+  --rule: #ddd0b8;
+  --code-bg: #fbf6ec;
+  --code-fg: #104e58;
 
   --measure: 70ch;
-  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-    "Liberation Mono", monospace;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
 
-  color-scheme: dark;
-}
-
-@supports (background-color: lab(2.75381 0 0)) {
-  :root {
-    --bg: lab(2.75381 0 0);
-  }
+  color-scheme: light;
 }
 
 *,
@@ -128,9 +122,11 @@ h2,
 h3,
 h4 {
   color: var(--fg-strong);
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 100;
+  line-height: 1.15;
   font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 
@@ -141,10 +137,25 @@ h1 {
 }
 
 h2 {
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   margin: 3rem 0 1rem;
   padding-top: 1.75rem;
-  border-top: 1px solid var(--rule);
+  border-top: 2px dashed var(--rule);
+}
+
+/* A small coral tile before each section heading, a nod to the azulejos on
+   lolocoding.com. Decorative only. */
+h2::before {
+  content: "";
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  margin-right: 0.5em;
+  vertical-align: 0.08em;
+  background: var(--accent-soft);
+  border: 2px solid var(--fg-strong);
+  border-radius: 3px;
+  transform: rotate(45deg);
 }
 
 h3 {
@@ -168,7 +179,7 @@ li {
 }
 
 li::marker {
-  color: var(--fg-muted);
+  color: var(--accent-soft);
 }
 
 /* The summary blockquote directly under the h1 doubles as the page
@@ -178,8 +189,10 @@ blockquote {
   padding: 0;
   border: 0;
   color: var(--fg-strong);
-  font-size: 1.1875rem;
-  line-height: 1.5;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 100;
+  font-size: 1.3125rem;
+  line-height: 1.45;
   text-wrap: pretty;
 }
 
@@ -192,7 +205,8 @@ a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
-  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  text-decoration-color: var(--accent-soft);
+  text-decoration-thickness: 2px;
 }
 
 a:hover,
@@ -212,8 +226,8 @@ strong {
 }
 
 em {
-  color: var(--fg-muted);
-  font-style: normal;
+  color: var(--fg-strong);
+  font-style: italic;
 }
 
 hr {

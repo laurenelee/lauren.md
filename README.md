@@ -1,4 +1,4 @@
-# aaronbassett.md
+# lauren.md
 
 A personal site whose primary audience is machines.
 
@@ -91,7 +91,7 @@ Two things in it are load-bearing:
 ## Verifying the behaviour
 
 With `pnpm dev` running, these are the acceptance checks. Swap
-`http://127.0.0.1:8787` for `https://aaronbassett.md` to run them against
+`http://127.0.0.1:8787` for `https://lauren.md` to run them against
 production.
 
 ```bash
@@ -197,11 +197,11 @@ Use the **WebGL** build, not the WebGPU/WGSL one.
 
 Done once, by hand — the deploy workflow does not automate it.
 
-1. Point the `aaronbassett.md` nameservers at Cloudflare (free plan is fine).
+1. Point the `lauren.md` nameservers at Cloudflare (free plan is fine).
 2. Deploy once so the Worker exists: `pnpm deploy`.
-3. In the dashboard, open **Workers & Pages → `aaronbassett-md` → Settings →
-   Domains & Routes**, add a **Custom Domain** for `aaronbassett.md`, and add
-   `www.aaronbassett.md` as a redirect to the apex if you want one.
+3. In the dashboard, open **Workers & Pages → `lauren-md` → Settings →
+   Domains & Routes**, add a **Custom Domain** for `lauren.md`, and add
+   `www.lauren.md` as a redirect to the apex if you want one.
 4. TLS is automatic; there is no certificate work.
 
 `wrangler.toml` contains a commented-out `[[routes]]` block that would claim the
@@ -241,7 +241,7 @@ them:
 | Secret | Purpose |
 | --- | --- |
 | `CLOUDFLARE_CACHE_PURGE_TOKEN` | Token with `Cache Purge` permission. |
-| `CLOUDFLARE_ZONE_ID` | Zone ID for `aaronbassett.md`. |
+| `CLOUDFLARE_ZONE_ID` | Zone ID for `lauren.md`. |
 
 ---
 

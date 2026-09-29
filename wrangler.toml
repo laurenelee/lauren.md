@@ -1,4 +1,4 @@
-name = "aaronbassett-md"
+name = "lauren-md"
 main = "src/index.js"
 compatibility_date = "2026-09-01"
 
@@ -16,5 +16,5 @@ run_worker_first = true
 # deploy claim the route instead.
 #
 # [[routes]]
-# pattern = "aaronbassett.md"
+# pattern = "lauren.md"
 # custom_domain = true
