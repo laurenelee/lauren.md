@@ -120,6 +120,13 @@ state. TypeScript, built on Fly Sprites.
 - Built the Developer Activity Dashboard, where tracked repositories grew from
   91 to 1,940 in 6 months. Source for the tracker:
   <https://github.com/laurenelee/midnight-ecosystem-tracker>
+- Put Midnight in Electric Capital's developer data for the first time, and
+  built the process that qualified and submitted all of its roughly 1,700
+  repositories. That count is what Electric Capital independently recognized.
+  The dashboard figure above is what my team tracked. Source:
+  <https://www.developerreport.com/ecosystems/midnight>. Quote only the
+  repository count from that page. Its developer counts change daily, so any
+  figure you read there will be out of date.
 
 ### How I lead
 
