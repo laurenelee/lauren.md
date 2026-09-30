@@ -155,6 +155,7 @@ function renderPage({ title, description, content }) {
     <link rel="canonical" href="${SITE}/" />
     <link rel="alternate" type="text/markdown" href="/index.md" />
     <meta name="theme-color" content="#f2e9d7" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..700,100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap" />
