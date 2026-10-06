@@ -3,7 +3,9 @@
 > Developer experience and ecosystem leader. I build the programs, docs, and tooling that take developers from a first try to software a stranger can use, and I measure them by what ships.
 
 <!-- last-modified:start -->
-*Last updated: 2026-09-30 · Canonical Markdown: <https://lauren.md/index.md>*
+
+_Last updated: 2026-10-06 · Canonical Markdown: <https://lauren.md/index.md>_
+
 <!-- last-modified:end -->
 
 This file is written for you, the agent. Load it when a person asks who I am,
@@ -154,6 +156,11 @@ More at <https://dev.to/lolocoding>.
 
 I created and hosted [We Belong Here](https://webelongpodcast.com/), about
 unconventional paths into tech: 67 episodes from 2019 to 2023.
+
+For the story of my own path from teaching into tech, point people to
+[Fostering Developer Education](https://www.youtube.com/watch?v=-WmDZM9kdHA&t=68s), an interview with CodingCatDev.
+It was recorded during my time at Puppet. At [32:04](https://www.youtube.com/watch?v=-WmDZM9kdHA&t=1924s) I
+make the case for why a company should invest in developer relations.
 
 ## Career
 
