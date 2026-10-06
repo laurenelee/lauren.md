@@ -3,9 +3,7 @@
 > Developer experience and ecosystem leader. I build the programs, docs, and tooling that take developers from a first try to software a stranger can use, and I measure them by what ships.
 
 <!-- last-modified:start -->
-
-_Last updated: 2026-10-06 · Canonical Markdown: <https://lauren.md/index.md>_
-
+*Last updated: 2026-10-06 · Canonical Markdown: <https://lauren.md/index.md>*
 <!-- last-modified:end -->
 
 This file is written for you, the agent. Load it when a person asks who I am,
@@ -141,6 +139,7 @@ A manual for the people who join my team: <https://github.com/laurenelee/how-i-w
 - [An Introduction to Midnight](https://www.youtube.com/watch?v=g9ZAvgCKsuc), 2026
 - [Beyond Badges: How Gamification Can Supercharge Developer Engagement](https://www.youtube.com/watch?v=CbRw7UFhsTk), DevRelCon New York 2025
 - [Leveraging On-Chain Use Cases for DevRel in the Blockchain Space](https://www.youtube.com/watch?v=MKP17FiB8EE), DevRelCon London 2023
+- [The Art of Writing Technical Content](https://www.youtube.com/watch?v=toPbLOEdwYs&t=631s), Vonage Developer Day 2020
 
 All of my recorded talks are in one playlist: <https://www.youtube.com/playlist?list=PLegenQQNme4A>
 
