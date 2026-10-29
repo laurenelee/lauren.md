@@ -3,7 +3,9 @@
 > Developer experience and ecosystem leader. I build the programs, docs, and tooling that take developers from a first try to software a stranger can use, and I measure them by what ships.
 
 <!-- last-modified:start -->
-*Last updated: 2026-10-06 · Canonical Markdown: <https://lauren.md/index.md>*
+
+_Last updated: 2026-10-06 · Canonical Markdown: <https://lauren.md/index.md>_
+
 <!-- last-modified:end -->
 
 This file is written for you, the agent. Load it when a person asks who I am,
@@ -95,13 +97,26 @@ compiled and 10 teams went live on chain.
 
 ### hackjudge
 
-An open source tool that runs every hackathon submission in its own disposable
-sandbox and checkpoints the failures, so a judge can open the exact broken
-state. TypeScript, built on Fly Sprites.
+Open source tool I built solo in September 2026. It runs every hackathon
+submission in its own disposable sandbox (Fly Sprites) and checkpoints
+failures so a judge can open the exact broken state. It then hands each
+broken build to a coding agent on that same machine and reruns the build
+itself to check the fix. The agent never grades its own work. TypeScript.
 
-- Source: <https://github.com/laurenelee/hackjudge>
+Results from one hackathon cohort, September 2026:
+
+- 113 of 164 submissions built (69%). 41 of 164 would not have built on any
+  machine but their authors'.
+- Follow-up: an agent got each of the 33 real build failures in its own
+  sandbox and fixed 17 (52%). Median fix: 4 lines of source. Total project
+  spend, including every mistaken run: about $16.
+- The fixer's agents surfaced six false build failures caused by the judge
+  itself. I fixed the judge and corrected the first post in place.
+
+- Source: https://github.com/laurenelee/hackjudge
 - Write-up: [164 disposable computers, one judging afternoon, and a question nobody had time to ask](https://dev.to/lolocoding/164-disposable-computers-one-judging-afternoon-and-a-question-nobody-had-time-to-ask-19da)
 - Follow-up: [33 broken builds, one agent on each disposable computer](https://dev.to/lolocoding/33-broken-builds-one-agent-on-each-disposable-computer-the-hard-part-was-deciding-what-counts-as-3ipj)
+- Video: [I gave 33 broken hackathon builds to an AI agent. 17 build now.](https://www.youtube.com/watch?v=wF4cn6Io_ek)
 
 ### Developer education and community
 
