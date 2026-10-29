@@ -36,12 +36,12 @@ in this repository, and there is no backend beyond the Worker.
 
 `sfw` wraps **every command that downloads or executes new package code**:
 
-| Prefix with `sfw` | Run bare |
-| --- | --- |
-| `sfw pnpm install` | `pnpm build` |
-| `sfw pnpm add <pkg>` | `pnpm run <script>` |
-| `sfw pnpm update` | `pnpm dev` / `wrangler dev` |
-| `sfw pnpm dlx <pkg>` | `wrangler deploy` |
+| Prefix with `sfw`    | Run bare                    |
+| -------------------- | --------------------------- |
+| `sfw pnpm install`   | `pnpm build`                |
+| `sfw pnpm add <pkg>` | `pnpm run <script>`         |
+| `sfw pnpm update`    | `pnpm dev` / `wrangler dev` |
+| `sfw pnpm dlx <pkg>` | `wrangler deploy`           |
 
 This applies in CI too — see [`.github/workflows/`](.github/workflows). The one
 unavoidable exception is `pnpm add -g sfw` itself: the wrapper cannot wrap its
@@ -139,13 +139,13 @@ around the cursor. It depends on the experimental **html-in-canvas** API
 (`layoutsubtree`, `drawElementImage`, `requestPaint`), which almost no browser
 ships yet, so it is strictly an enhancement:
 
-| Situation | Result |
-| --- | --- |
-| html-in-canvas available | Dust effect, revealing around the cursor |
+| Situation                         | Result                                               |
+| --------------------------------- | ---------------------------------------------------- |
+| html-in-canvas available          | Dust effect, revealing around the cursor             |
 | API missing (most browsers today) | Plain styled document; canvases stay `display: none` |
-| WebGL2 unavailable | Init rolls the DOM back and leaves a plain document |
-| JavaScript disabled | Plain styled document |
-| `prefers-reduced-motion: reduce` | Content renders crisp, no dust animation |
+| WebGL2 unavailable                | Init rolls the DOM back and leaves a plain document  |
+| JavaScript disabled               | Plain styled document                                |
+| `prefers-reduced-motion: reduce`  | Content renders crisp, no dust animation             |
 
 The rendered Markdown is **always** real DOM in the served HTML. The canvas
 captures that content; it never replaces it, and the output canvas keeps
@@ -229,19 +229,19 @@ install and build, so a broken page cannot reach `main`.
 Two repository secrets are required (**Settings → Secrets and variables →
 Actions**):
 
-| Secret | Purpose |
-| --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Token with `Workers Scripts:Edit`. The "Edit Cloudflare Workers" template token is sufficient. |
-| `CLOUDFLARE_ACCOUNT_ID` | Your Cloudflare account ID, from the dashboard sidebar. |
+| Secret                  | Purpose                                                                                        |
+| ----------------------- | ---------------------------------------------------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Token with `Workers Scripts:Edit`. The "Edit Cloudflare Workers" template token is sufficient. |
+| `CLOUDFLARE_ACCOUNT_ID` | Your Cloudflare account ID, from the dashboard sidebar.                                        |
 
 Two more are optional and enable the post-deploy cache purge. The step is
 skipped entirely when they are absent, so the deploy never fails for want of
 them:
 
-| Secret | Purpose |
-| --- | --- |
+| Secret                         | Purpose                              |
+| ------------------------------ | ------------------------------------ |
 | `CLOUDFLARE_CACHE_PURGE_TOKEN` | Token with `Cache Purge` permission. |
-| `CLOUDFLARE_ZONE_ID` | Zone ID for `lauren.md`. |
+| `CLOUDFLARE_ZONE_ID`           | Zone ID for `lauren.md`.             |
 
 ---
 
@@ -261,15 +261,24 @@ public/assets/particle-reveal.js  vendored Canvas UI vanilla WebGL build
 
 ### Routing
 
-| Request | Response |
-| --- | --- |
-| `GET /` with `Accept: text/html` | `index.html` as `text/html`, `Vary: Accept` |
+| Request                                        | Response                                      |
+| ---------------------------------------------- | --------------------------------------------- |
+| `GET /` with `Accept: text/html`               | `index.html` as `text/html`, `Vary: Accept`   |
 | `GET /` with `*/*`, absent, or `text/markdown` | `index.md` as `text/markdown`, `Vary: Accept` |
-| `GET /index.md` | raw Markdown, always |
-| `GET /llms.txt` | raw Markdown, always (same content) |
-| `GET /?format=md` | raw Markdown, always |
-| `GET /style.css`, `GET /assets/*` | passthrough to static assets |
-| anything else | `302` redirect to `/` |
+| `GET /index.md`                                | raw Markdown, always                          |
+| `GET /llms.txt`                                | raw Markdown, always (same content)           |
+| `GET /?format=md`                              | raw Markdown, always                          |
+| `GET /style.css`, `GET /assets/*`              | passthrough to static assets                  |
+| anything else                                  | `302` redirect to `/`                         |
 
 The Worker has zero runtime dependencies and fetches assets through the
 `ASSETS` binding rather than bundling any file contents.
+
+## License
+
+The code in this repo is MIT licensed (see LICENSE). Built on Aaron Bassett's
+[aaronbassett.md](https://aaronbassett.md).
+
+The profile content (everything in the markdown describing me) is © Lauren Lee,
+all rights reserved. Borrow the structure and the rules format freely. Write
+your own facts.
