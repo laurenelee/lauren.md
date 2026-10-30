@@ -282,3 +282,6 @@ The code in this repo is MIT licensed (see LICENSE). Built on Aaron Bassett's
 The profile content (everything in the markdown describing me) is © Lauren Lee,
 all rights reserved. Borrow the structure and the rules format freely. Write
 your own facts.
+
+If this helped you build your own, a link back to [lauren.md](https://lauren.md) or
+  [aaronbassett.md](https://aaronbassett.md) is appreciated.
