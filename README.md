@@ -1,10 +1,36 @@
 # lauren.md
 
-A personal site whose primary audience is machines.
+A personal site whose primary audience is machines: my resume, written so AI tools can read it cleanly and quote it accurately.  
+See it live at [lauren.md](https://lauren.md).
 
-One Markdown file — [`public/index.md`](public/index.md) — is the single source
-of truth, in the spirit of the `AGENTS.md` convention. A Cloudflare Worker
-negotiates at the edge:
+## Make your own
+
+Want your own version? You don't need to clone this repo or write any code.
+
+1. Open ChatGPT, Claude, or whichever AI assistant you use.
+2. Attach your resume.
+3. Paste this prompt:
+
+```
+Here's a template: https://lauren.md/index.md
+
+Using my attached resume, write my own version in the same structure and in Markdown: a one-line summary, a short note telling AI agents when to use this file, rules for agents (don't invent facts, quote numbers exactly with their timeframe, keep my work separate from my team's), then About me, Selected work with numbers and links, Career, and Contact.
+
+Use only facts from what I gave you. If something is missing, write [TODO] instead of guessing.
+
+At the very end, add this line: "Format by Lauren Lee and Aaron Bassett: https://lauren.md and https://aaronbassett.md"
+```
+
+4. Read every line. Replace each [TODO] with a real fact or delete it.
+5. Publish it somewhere public. Your GitHub profile README is the fastest option. Then link to it from your site and your LinkedIn.
+
+Feel free to borrow the structure and rules format. The facts should be yours.
+
+---
+
+## How it works
+
+One Markdown file, [`public/index.md`](public/index.md), is the single source of truth, in the spirit of the `AGENTS.md` convention. A Cloudflare Worker negotiates at the edge:
 
 - **Browsers** (`Accept: text/html`) get the Markdown rendered as a styled HTML
   document, wrapped in a WebGL "particle reveal" effect.
