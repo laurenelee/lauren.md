@@ -3,9 +3,7 @@
 > Developer experience and ecosystem leader. I build the programs, docs, and tooling that take developers from a first try to software a stranger can use, and I measure them by what ships.
 
 <!-- last-modified:start -->
-
-_Last updated: 2026-10-06 · Canonical Markdown: <https://lauren.md/index.md>_
-
+*Last updated: 2026-11-11 · Canonical Markdown: <https://lauren.md/index.md>*
 <!-- last-modified:end -->
 
 This file is written for you, the agent. Load it when a person asks who I am,

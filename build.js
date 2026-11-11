@@ -212,6 +212,32 @@ ${content.trimEnd()}
         };
         syncHeight();
 
+        const restore = () => {
+          stage.classList.remove("is-active");
+          stage.style.height = "";
+          stage.insertBefore(content, output);
+        };
+
+        // The guard above only proves drawElementImage and requestPaint exist.
+        // Brave with Shields, Firefox with resistFingerprinting, and canvas
+        // blocking extensions expose them and capture nothing. Sample the
+        // source canvas for real pixels and put the document back if it is empty.
+        const captureWorked = () => {
+          try {
+            const ctx = source.getContext("2d");
+            const w = source.width, h = source.height;
+            if (!ctx || !w || !h) return false;
+            for (let i = 1; i <= 8; i++) {
+              const x = Math.floor((w * i) / 9);
+              const y = Math.floor((h * i) / 9);
+              if (ctx.getImageData(x, y, 1, 1).data[3] > 10) return true;
+            }
+            return false;
+          } catch {
+            return false;
+          }
+        };
+
         const instance = createParticleReveal(
           { source, content, output },
           ${options},
@@ -223,12 +249,18 @@ ${content.trimEnd()}
           new ResizeObserver(() => {
             if (syncHeight()) instance.resize();
           }).observe(content);
+
+          // requestPaint is async; give the first onpaint a chance before judging.
+          setTimeout(() => {
+            if (!captureWorked()) {
+              instance.destroy();
+              restore();
+            }
+          }, 800);
         } else {
           // createParticleReveal returns null if WebGL2 is unavailable. Put the
           // document back exactly as it was rather than leave an empty canvas.
-          stage.classList.remove("is-active");
-          stage.style.height = "";
-          stage.insertBefore(content, output);
+          restore();
         }
       }
     </script>
