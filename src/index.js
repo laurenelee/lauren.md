@@ -37,7 +37,10 @@ async function negotiated(env, request, asset, contentType) {
   }
 
   const upstream = await env.ASSETS.fetch(
-    new Request(new URL(asset, request.url), { headers, method: request.method }),
+    new Request(new URL(asset, request.url), {
+      headers,
+      method: request.method,
+    }),
   );
   const response = new Response(upstream.body, upstream);
   response.headers.set("Content-Type", contentType);
@@ -49,6 +52,11 @@ async function negotiated(env, request, asset, contentType) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // www is attached to this Worker only so it can be sent to the apex.
+    if (url.hostname === "www.lauren.md") {
+      url.hostname = "lauren.md";
+      return Response.redirect(url.toString(), 301);
+    }
     const path = url.pathname;
 
     // Static files the Worker has no opinion about. Checked first so that
